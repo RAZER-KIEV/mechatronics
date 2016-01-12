@@ -1,11 +1,10 @@
 package ua.kiev.netmaster.agro.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,9 +32,9 @@ import ua.kiev.netmaster.agro.domain.Sensor;
 import ua.kiev.netmaster.agro.domain.Zone;
 
 
-public class ActivityListView extends Activity implements AdapterView.OnItemClickListener {
+public class ActivityListView extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private final String types[] = {"SOLAR","HUMIDITY","TEMPERATURE","WINDSPEED"};
+    private final String types[] = {"SOLAR","HUMIDITY","TEMPERATURE","WINDSPEED","CHARGE","PRESSURE","HUMIDITY_15", "HUMIDITY_65"};
     private String result, zone_id, sensorId;
     private Gson gson;
     //private Zone zone;
@@ -96,13 +94,13 @@ public class ActivityListView extends Activity implements AdapterView.OnItemClic
     }
 
     private void prepareSpinner(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, types);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.snipper_item, types);
+        adapter.setDropDownViewResource(R.layout.snipper_item);
 
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(adapter);
         spinner.setPrompt("Select type os sensors");
-
+        //spinner.setDrawingCacheBackgroundColor(Color.RED);//// TODO: 12.01.2016
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
@@ -162,7 +160,7 @@ public class ActivityListView extends Activity implements AdapterView.OnItemClic
     }
 
 
-    View createHeader(String first, String second) {
+   /* private View createHeader(String first, String second) {
         View v = getLayoutInflater().inflate(R.layout.item, null);
         ((TextView) v.findViewById(R.id.zoneId)).setText(first);
         (v.findViewById(R.id.zoneId)).setBackgroundColor(Color.parseColor("#FF9800"));
@@ -171,21 +169,21 @@ public class ActivityListView extends Activity implements AdapterView.OnItemClic
         v.setClickable(false);
 
         return v;
-    }
+        }*/
 
 
     public void onClickRefresh(View view) {
         Log.d(LoginActivity.LOG, "ActivityListView. onClickRefresh");
         try {
-            result = new MyDownTask("zones/get").execute().get();
+            result = new MyDownTask("zones/get", this).execute().get();
             zoneList = gson.fromJson(result, tokenZone.getType());
             Collections.sort(zoneList);
             myZoneAdapter = new MyZoneAdapter(this, zoneList);
-            if (!zoneListHasHeader) {
+           /* if (!zoneListHasHeader) {
                 zoneListView.addHeaderView(createHeader("ID", "FIELD NAME"),null,false);
                 //zoneListView.addHeaderView(createHeader().);
                 zoneListHasHeader = true;
-            }
+            }*/
             zoneListView.setAdapter(myZoneAdapter);
             zoneListView.setOnItemClickListener(this);
 
@@ -199,10 +197,10 @@ public class ActivityListView extends Activity implements AdapterView.OnItemClic
     }
     private void showSensorList(List<Sensor> list){
         mySensorAdapter = new MySensorAdapter(this, list);
-        if (!sensorListHasHeader) {
+        /*if (!sensorListHasHeader) {
             sensorListView.addHeaderView(createHeader("ID","TYPE, VALUE"),null,false);
             sensorListHasHeader = true;
-        }
+        }*/
         sensorListView.setAdapter(mySensorAdapter);
         sensorListView.setOnItemClickListener(this);
         showSensorsMode(true);
@@ -211,7 +209,7 @@ public class ActivityListView extends Activity implements AdapterView.OnItemClic
     public void getSensorsfromServer(View view) {
         Log.d(LoginActivity.LOG, "ActivityListView. getSensorsfromServer");
         try {
-            result = new MyDownTask("sensors/get",zone_id).execute().get();
+            result = new MyDownTask("sensors/get",zone_id, this).execute().get();
             sensorList = gson.fromJson(result, tokenSensor.getType());
             showSensorList(sensorList);
             showSensorsMode(true);
@@ -252,16 +250,16 @@ public class ActivityListView extends Activity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if(i==0)return;
+        //if(i==0)return;
         //If Zonelist item clicked
         if(adapterView.getId()==zoneListView.getId()) {
-            zone_id = zoneList.get(--i).getId();
+            zone_id = zoneList.get(i).getId();
             showSensorsMode(true);
             getSensorsfromServer(null);
 
          // If Sensor list item clicked
         }else if(adapterView.getId()==sensorListView.getId()){
-            curSensor = sensorList.get(--i);
+            curSensor = sensorList.get(i);
             Log.d(LoginActivity.LOG, "ActivityListView. onItemClick. curSensor = " + curSensor+" isSensorListVisible = "+isSensorListVisible);
             Intent intent = new Intent(this,DetailsActivity.class);
             startActivity(intent);
@@ -272,8 +270,6 @@ public class ActivityListView extends Activity implements AdapterView.OnItemClic
     private  void pushDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityListView.this);
         builder.setTitle("Exit ?")
-                //.setMessage("Покормите кота!")
-               // .setIcon(R.drawable.ic_android_cat)
                 .setCancelable(false)
                 .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

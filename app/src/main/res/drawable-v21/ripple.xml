@@ -3,16 +3,32 @@
     android:color="@color/common_google_signin_btn_text_dark_default">
 
     <item android:state_pressed = "true">
-        <shape android:shape="rectangle">
-            <solid android:color="#729A9A9A"/>
-            <corners android:radius="5dp"/>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+            <gradient
+                android:angle="90"
+                android:startColor="#0E5E1D"
+                android:endColor="#278D3F"
+                android:type="linear" />
+
+            <stroke
+                android:width="1dp"
+                android:color="#17732d"/>
+
+            <corners
+                android:radius="5dp"/>
         </shape>
     </item>
 
     <item android:state_pressed = "false">
-        <shape android:shape="rectangle">
-            <solid android:color="#72010101"/>
-            <corners android:radius="5dp"/>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+            <gradient
+                android:angle="90"
+                android:startColor="#0E5E1D"
+                android:endColor="#278D3F"
+                android:type="linear" />
+
+            <corners
+                android:radius="5dp"/>
         </shape>
     </item>
 

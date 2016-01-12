@@ -9,13 +9,16 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.LoginActivity"
-    android:background="@drawable/backgrnd10">
+    android:background="@drawable/mobile_screen_1">
 
     <!-- Login progress -->
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -33,15 +36,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:id="@+id/imageView"
-                android:src="@drawable/mech_logo"
-                android:contentDescription="logo"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp" />
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -50,11 +44,17 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_username"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="admin" />
+                    android:singleLine="false"
+                    android:background="@drawable/textviewrouded"
+                    android:text="admin"
+                    android:drawableLeft="@drawable/ic_account"
+                    android:paddingLeft="7dp"
+                    android:paddingTop="7dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="7dp"
+                    android:shadowColor="#595959" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -66,14 +66,17 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="warcraft3" />
+                    android:text="warcraft3"
+                    android:drawableLeft="@drawable/ic_key"
+                    android:background="@drawable/textviewrouded"
+                    android:padding="7dp"
+                    android:textAlignment="center"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -99,5 +102,24 @@
         android:visibility="gone"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/poweredbymechatronics"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/agromonitorlogo1png"
+        android:contentDescription="logo"
+        android:layout_above="@+id/login_form"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="10dp" />
 
 </RelativeLayout>

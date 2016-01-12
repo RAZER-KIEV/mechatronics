@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
     android:focusableInTouchMode="true"
-    android:background="@drawable/backgrnd5">
+    android:background="@drawable/mobile_screen_1">
 
     <TableRow
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Show Map"
+            android:text="Карта"
             android:id="@+id/showMap"
             android:textColor="#ffffff"
             android:background="@drawable/ripple"
@@ -32,7 +32,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Refresh"
+            android:text="Обновить"
             android:id="@+id/getOrdersBtn"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
@@ -85,6 +85,12 @@
         android:layout_below="@+id/buttons"
         android:layout_centerHorizontal="true"
         android:layout_margin="3dp"
-        android:contextClickable="false" />
+        android:contextClickable="false"
+        android:dropDownSelector="#5bd468"
+        android:foreground="#743535"
+        android:foregroundTint="#ffffff"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        />
 
 </RelativeLayout>

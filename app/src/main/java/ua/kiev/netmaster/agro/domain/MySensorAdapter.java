@@ -54,7 +54,7 @@ public class MySensorAdapter extends BaseAdapter {
 
         Sensor sensor = getSensor(position);
 
-        ((TextView) view.findViewById(R.id.zoneId)).setText(sensor.getId());
+        //((TextView) view.findViewById(R.id.zoneId)).setText(sensor.getId());
         ((TextView) view.findViewById(R.id.zoneName)).setText(sensor.getType()+" = "+sensor.getValue());
 
 

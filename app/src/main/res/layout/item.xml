@@ -8,27 +8,18 @@
         android:layout_margin="1dp">
 
         <TextView
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="id: 1"
-            android:id="@+id/zoneId"
-            android:background="#388E3C"
-            android:textAlignment="center"
-            android:clickable="false"
-            android:padding="5dp"
-             />
-
-        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="zoneName"
             android:id="@+id/zoneName"
-            android:background="#FFEB3B"
+            android:background="@drawable/itembackgrnd"
             android:textAlignment="center"
             android:clickable="false"
-            android:padding="5dp"
-           />
+            android:textColor="#565656"
+            android:paddingLeft="25dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp" />
     </TableRow>
 </RelativeLayout>

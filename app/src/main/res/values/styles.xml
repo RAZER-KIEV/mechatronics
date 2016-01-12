@@ -2,7 +2,13 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:editTextStyle">@style/App_EditTextStyle</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="App_EditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:background">#FFFFFF</item>
     </style>
 
 </resources>

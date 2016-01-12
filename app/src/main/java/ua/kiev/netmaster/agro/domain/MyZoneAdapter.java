@@ -54,7 +54,7 @@ public class MyZoneAdapter extends BaseAdapter {
 
         Zone zone = getOrder(position);
 
-        ((TextView) view.findViewById(R.id.zoneId)).setText(zone.getId());
+        //((TextView) view.findViewById(R.id.zoneId)).setText(zone.getId());
         ((TextView) view.findViewById(R.id.zoneName)).setText(zone.getName());
 
 

@@ -1,18 +1,22 @@
 package ua.kiev.netmaster.agro.domain;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.CookieHandler;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 
 import ua.kiev.netmaster.agro.activities.LoginActivity;
@@ -24,34 +28,38 @@ import ua.kiev.netmaster.agro.activities.LoginActivity;
 public class MyDownTask extends AsyncTask<Void, Void, String>{
 
     private Gson gson;
-
-    private String login, zone_id, password, urlStr = "http://agromonitor.mechatroniclab.com/api/";
+    private Context context;
+    private String login, zone_id, password, urlStr = "http://agro.mechatroniclab.com/api/";
 
     private String result;
+    public static boolean isReachable;
 
     //private Long orderId;
 
-    public MyDownTask(String urlTeil, String login, String password) {
+    public MyDownTask(String urlTeil, String login, String password, Context context) {
        urlStr += urlTeil;
        this.login = login;
        this.password = password;
-
+        this.context = context;
         gson = new Gson();
-
     }
 
-    public MyDownTask(String urlStrTail,String zoneId) {
+    public MyDownTask(String urlStrTail,String zoneId, Context context) {
         this.urlStr+= urlStrTail;
         this.zone_id = zoneId;
+        this.context = context;
         gson = new Gson();
     }
 
-    public MyDownTask(String urlStrTail) {
+    public MyDownTask(String urlStrTail, Context context) {
         this.urlStr+= urlStrTail;
         gson = new Gson();
+        this.context = context;
     }
 
-    protected void onPreExecute() {}
+    protected void onPreExecute() {
+        isReachable=true;
+    }
 
     @Override
     protected String doInBackground(Void... params) {
@@ -60,6 +68,7 @@ public class MyDownTask extends AsyncTask<Void, Void, String>{
     }
 
     protected void onPostExecute(String result) {
+        if(!isReachable) Toast.makeText(context, "No Internet connection! Try later.", Toast.LENGTH_LONG).show();
     }
 
     public String connect() {
@@ -71,11 +80,14 @@ public class MyDownTask extends AsyncTask<Void, Void, String>{
         HttpURLConnection con = null;
         String inputLine;
         try {
+            //isReachable();
+            //if(!isReachable) return "My Ping Error";
             Log.d(LoginActivity.LOG, "urlStr= "+urlStr);
             url = new URL(urlStr);
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setDoInput(true);
+            con.setConnectTimeout(2000);
             con.setDoOutput(true);
 
             if((login != null && password != null)|(zone_id!=null)) {
@@ -111,17 +123,31 @@ public class MyDownTask extends AsyncTask<Void, Void, String>{
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d(LoginActivity.LOG, " = Host is NOT reachable");
+            isReachable = false;
         } finally {
             if (con != null) {
                 con.disconnect();
             }
         }
 
-        Log.d(LoginActivity.LOG, "MyDownTask. responses.toString() = "+responses.toString());
+        Log.d(LoginActivity.LOG, "MyDownTask. responses.toString() = " + responses.toString());
 
         result = prepareToParseToGson(responses.toString());
 
         return result;
+    }
+
+    private void isReachable() throws IOException {
+        String ipAddress = "agro.mechatroniclab.com";
+        InetAddress inet = InetAddress.getByName(ipAddress);
+
+        if(inet.isReachable(5000)){
+            Log.d(LoginActivity.LOG, ipAddress + " = Host is reachable");
+            isReachable = true;
+        }else {
+            Log.d(LoginActivity.LOG, ipAddress + " = Host is NOT reachable");
+            isReachable = false; }
     }
 
     private String prepareToParseToGson(String input) {

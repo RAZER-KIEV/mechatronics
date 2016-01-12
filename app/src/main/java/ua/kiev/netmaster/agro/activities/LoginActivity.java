@@ -216,7 +216,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new MyDownTask("users/login",login, password);
+            mAuthTask = new MyDownTask("users/login",login, password,this);
             result = mAuthTask.execute().get().trim();
 
             if (result.equals("{\"status\":true,\"msg\":\"Ok\"}")) {
